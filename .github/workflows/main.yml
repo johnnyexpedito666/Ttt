@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Ajuste os paths conforme o seu SDK / NDK version
-      ANDROID_SDK_ROOT: ${{ runner.tool_cache }}/android-sdk
-      NDK_VERSION: "25.2.9519653"  # Exemplo: NDK 25
+      NDK_VERSION: "25.2.9519653"  # Exemplo de NDK version (ajuste se quiser)
 
     steps:
     - name: Checkout source code
@@ -26,7 +24,7 @@ jobs:
         distribution: 'temurin'
         java-version: 11
 
-    - name: Setup Android SDK
+    - name: Setup Android SDK and NDK
       uses: android-actions/setup-android@v3
       with:
         cmdline-tools-version: 9477386
@@ -37,3 +35,9 @@ jobs:
 
     - name: Build APK (Debug)
       run: ./gradlew assembleDebug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
